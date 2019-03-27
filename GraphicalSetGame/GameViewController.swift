@@ -10,7 +10,13 @@ import UIKit
 
 class GameViewController: UIViewController {
     // MARK: - Outlets
-    @IBOutlet var cardCollection: [UIButton]!
+
+    @IBOutlet weak var setGameDeckView: SetGameDeckView! {
+        didSet {
+            setGameDeckView.cards = game.cardsOnTable
+        }
+    }
+    
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var dealThreeMoreCardsButton: UIButton!
     
@@ -29,17 +35,19 @@ class GameViewController: UIViewController {
         game = SetGame()
         initializeDeckView()
         updateViews()
+ //       setGameDeckView.columnCount = 4
+ //       setGameDeckView.rowCount = 6
     }
     
-    @IBAction func chooseCard(_ sender: UIButton) {
-        if let cardNo = cardCollection.index(of: sender) {
-            game.selectCard(at: cardNo)
-            initializeDeckView()
-            updateViews()
-        } else {
-            print("There is no such a card on the table.")
-        }
-    }
+//    @IBAction func chooseCard(_ sender: UIButton) {
+//        if let cardNo = cardCollection.index(of: sender) {
+//            game.selectCard(at: cardNo)
+//            initializeDeckView()
+//            updateViews()
+//        } else {
+//            print("There is no such a card on the table.")
+//        }
+//    }
     
     // MARK: - Variables
     var game = SetGame()
@@ -58,7 +66,7 @@ class GameViewController: UIViewController {
     // MARK: - Functions
     /// Remove all cards on the table
     private func initializeDeckView() {
-        cardCollection.forEach() { $0.setAttributedTitle(nil, for: .normal); $0.layer.borderWidth = 0; $0.alpha = 0.2; $0.layer.cornerRadius = 6; $0.isEnabled = false }
+//        cardCollection.forEach() { $0.setAttributedTitle(nil, for: .normal); $0.layer.borderWidth = 0; $0.alpha = 0.2; $0.layer.cornerRadius = 6; $0.isEnabled = false }
     }
     
     /// Update the cards on the table
@@ -67,7 +75,7 @@ class GameViewController: UIViewController {
         dealThreeMoreCardsButton.isEnabled = game.didThreeCardSelected || (game.gameRange < 24 && game.deck.count > 2)
         
         for index in 0..<game.gameRange {
-            let button = cardCollection[index]
+     //       let button = cardCollection[index]
             let card = game.cardsOnTable[index]
             
             if game.matchedCardsThatWillBeRemoved.contains(card) {
@@ -75,8 +83,8 @@ class GameViewController: UIViewController {
                 continue
             }
             
-            button.isEnabled = true; button.alpha = 1
-            button.setAttributedTitle(attributedString(for: card), for: .normal)
+//            button.isEnabled = true; button.alpha = 1
+//            button.setAttributedTitle(attributedString(for: card), for: .normal)
             
             if let cardMatch = card.isMatched {
                 selectedBorderColor = cardMatch ? #colorLiteral(red: 0, green: 1, blue: 0.08472456465, alpha: 1).cgColor : #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1).cgColor
@@ -85,11 +93,11 @@ class GameViewController: UIViewController {
             }
             
             if card.isSelected {
-                button.layer.borderWidth = selectedBorderWidth
-                button.layer.borderColor = selectedBorderColor
+//                button.layer.borderWidth = selectedBorderWidth
+//                button.layer.borderColor = selectedBorderColor
             } else {
-                button.layer.borderWidth = defaultBorderWidth
-                button.layer.borderColor = defaultBorderColor
+//                button.layer.borderWidth = defaultBorderWidth
+//                button.layer.borderColor = defaultBorderColor
             }
         }
     }

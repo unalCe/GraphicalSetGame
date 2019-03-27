@@ -11,7 +11,7 @@ import Foundation
 class SetGame
 {
     // MARK: - Variables
-    private(set) var upperCardLimit = 24
+    private(set) var upperCardLimit = 81
     private(set) var standarCardCount = 12
     
     var score: Int
@@ -110,7 +110,8 @@ class SetGame
         for card in selectedCards {
             numbers.insert(card.number); shapes.insert(card.shape); colors.insert(card.color); fillings.insert(card.filling)
         }
-        let isSet = (numbers.count == 1 || numbers.count == 3) && (shapes.count == 1 || shapes.count == 3) && (colors.count == 1 || colors.count == 3) && (fillings.count == 1 || fillings.count == 3)
+        // If the count is 1 then all of them are same. If it's 3 then all of them are unique.
+        let isSet = numbers.count != 2 && shapes.count != 2 && colors.count != 2 && fillings.count != 2
         return isSet
     }
     
