@@ -1,5 +1,5 @@
-# SetGame
+# GraphicalSetGame
 
-This repo is for educational purposes. It includes my solution for assignment two. 
+This repo is for educational purposes.
 
-ToDo: Handle end game logic.
+Assignment 3 should be continued from assignment 2. 
