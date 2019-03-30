@@ -15,6 +15,7 @@
 		901077BE2242992D008DCB29 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901077BD2242992D008DCB29 /* Card.swift */; };
 		901077C02242A448008DCB29 /* SetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901077BF2242A448008DCB29 /* SetGame.swift */; };
 		90164A4C224AA0A800855F49 /* SetGameDeckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90164A4B224AA0A800855F49 /* SetGameDeckView.swift */; };
+		904C8A62224FBCD600BA604F /* SetCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904C8A61224FBCD600BA604F /* SetCardView.swift */; };
 		90BC4CA72249580B00B59039 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BC4CA62249580B00B59039 /* Grid.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		901077BD2242992D008DCB29 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		901077BF2242A448008DCB29 /* SetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGame.swift; sourceTree = "<group>"; };
 		90164A4B224AA0A800855F49 /* SetGameDeckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameDeckView.swift; sourceTree = "<group>"; };
+		904C8A61224FBCD600BA604F /* SetCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCardView.swift; sourceTree = "<group>"; };
 		90BC4CA62249580B00B59039 /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,6 +67,7 @@
 				90BC4CA62249580B00B59039 /* Grid.swift */,
 				901077AC2242496C008DCB29 /* GameViewController.swift */,
 				90164A4B224AA0A800855F49 /* SetGameDeckView.swift */,
+				904C8A61224FBCD600BA604F /* SetCardView.swift */,
 				901077BD2242992D008DCB29 /* Card.swift */,
 				901077BF2242A448008DCB29 /* SetGame.swift */,
 				901077AE2242496C008DCB29 /* Main.storyboard */,
@@ -157,6 +160,7 @@
 			files = (
 				901077C02242A448008DCB29 /* SetGame.swift in Sources */,
 				901077AD2242496C008DCB29 /* GameViewController.swift in Sources */,
+				904C8A62224FBCD600BA604F /* SetCardView.swift in Sources */,
 				90164A4C224AA0A800855F49 /* SetGameDeckView.swift in Sources */,
 				901077BE2242992D008DCB29 /* Card.swift in Sources */,
 				90BC4CA72249580B00B59039 /* Grid.swift in Sources */,

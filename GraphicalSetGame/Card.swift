@@ -40,9 +40,9 @@ struct Card: Equatable {
 // MARK: -
 extension Card {
     enum Shape: CaseIterable {
-        case triangle
-        case round
-        case square
+        case squiggle
+        case oval
+        case diamond
     }
     
     enum Filling: CaseIterable {
@@ -53,7 +53,7 @@ extension Card {
     
     enum Color: CaseIterable {
         case red
-        case blue
+        case purple
         case green
     }
     
