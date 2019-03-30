@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mpB-gv-qoO" customClass="SetGameDeckView" customModule="GraphicalSetGame" customModuleProvider="target">
-                                <rect key="frame" x="16" y="36" width="343" height="519"/>
+                                <rect key="frame" x="4" y="36" width="367" height="519"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Fnp-vR-7kc">
@@ -61,10 +61,10 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Fnp-vR-7kc" secondAttribute="trailing" constant="30" id="3oJ-nT-Akb"/>
                             <constraint firstItem="b3Q-Ud-Yog" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="110" id="8uU-K3-0PM"/>
                             <constraint firstItem="b3Q-Ud-Yog" firstAttribute="top" secondItem="Fnp-vR-7kc" secondAttribute="bottom" constant="8" id="BOS-fC-cyQ"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="mpB-gv-qoO" secondAttribute="trailing" constant="16" id="NYQ-nz-AhK"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="mpB-gv-qoO" secondAttribute="trailing" constant="4" id="NYQ-nz-AhK"/>
                             <constraint firstItem="b3Q-Ud-Yog" firstAttribute="height" secondItem="Fnp-vR-7kc" secondAttribute="height" id="WMJ-dM-BF3"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="b3Q-Ud-Yog" secondAttribute="bottom" constant="12" id="ar4-Z7-0OI"/>
-                            <constraint firstItem="mpB-gv-qoO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="ard-oR-hIR"/>
+                            <constraint firstItem="mpB-gv-qoO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="4" id="ard-oR-hIR"/>
                             <constraint firstItem="Fnp-vR-7kc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="e9v-tP-LQS"/>
                             <constraint firstItem="mpB-gv-qoO" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="eUs-mR-3dR"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="b3Q-Ud-Yog" secondAttribute="trailing" constant="110" id="gLU-fK-NLj"/>
