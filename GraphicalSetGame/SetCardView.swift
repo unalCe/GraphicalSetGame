@@ -15,25 +15,43 @@ class SetCardView: UIView {
     var color: Card.Color?
     var filling: Card.Filling?
     
-    private func draw(shape: Card.Shape) {
+//    private func draw(shape: Card.Shape) {
+//        let drawingZone = bounds.inset(by: UIEdgeInsets(top: bounds.width / 4, left: bounds.width / 6, bottom: bounds.width / 4, right: bounds.width / 6))
+//
+//        switch shape {
+//        case .diamond:
+//            let path = UIBezierPath()
+//            path.move(to: CGPoint(x: drawingZone.midX, y: drawingZone.minY))
+//            path.addLine(to: CGPoint(x: drawingZone.maxX, y: drawingZone.midY))
+//            path.addLine(to: CGPoint(x: drawingZone.midX, y: drawingZone.maxY))
+//            path.addLine(to: CGPoint(x: drawingZone.minX, y: drawingZone.midY))
+//            path.close()
+//            UIColor.red.setStroke()
+//            path.lineWidth = 3
+//            path.stroke()
+//        default:
+//            print("dx")
+//        }
+//    }
+    
+    // TODO: Iterate sayısı burada değil de color ve filling vereceğin metodun içinde loop etmek daha mantıklı gibi.
+    // TODO:
+    private func getPath(for shape: Card.Shape, iterateCount: Int) -> UIBezierPath {
+        let path = UIBezierPath()
         let drawingZone = bounds.inset(by: UIEdgeInsets(top: bounds.width / 4, left: bounds.width / 6, bottom: bounds.width / 4, right: bounds.width / 6))
         
         switch shape {
         case .diamond:
-            let path = UIBezierPath()
-            path.move(to: CGPoint(x: drawingZone.midX, y: drawingZone.minY))
-            path.addLine(to: CGPoint(x: drawingZone.maxX, y: drawingZone.midY))
-            path.addLine(to: CGPoint(x: drawingZone.midX, y: drawingZone.maxY))
-            path.addLine(to: CGPoint(x: drawingZone.minX, y: drawingZone.midY))
-            path.close()
-            UIColor.red.setStroke()
-            path.lineWidth = 3
-            path.stroke()
-     //   case .oval:
-     //       let ovalPath = UIBezierPath(ovalIn: <#T##CGRect#>)
-        default:
-            print("dx")
+       //     for repetition in (1...iterateCount) {
+                path.move(to: CGPoint(x: drawingZone.midX - (drawingZone.width / CGFloat(1)), y: drawingZone.minY))
+                path.addLine(to: CGPoint(x: drawingZone.midX, y: drawingZone.midY))
+                path.addLine(to: CGPoint(x: drawingZone.midX, y: drawingZone.maxY))
+                path.addLine(to: CGPoint(x: drawingZone.minX, y: drawingZone.midY))
+                path.close()
+       //     }
+        default: return UIBezierPath()
         }
+        return path
     }
     
     override init(frame: CGRect) {
@@ -57,7 +75,12 @@ class SetCardView: UIView {
         background.addClip()
         background.fill()
         
-        draw(shape: shape ?? .diamond)
+        // if let shape = shape { draw(shape: shape) }
+   //     draw(shape: shape ?? .diamond)
+        let path = getPath(for: shape ?? .diamond, iterateCount: 1)
+        UIColor.red.setStroke()
+        path.lineWidth = 3
+        path.stroke()
     }
 }
 
