@@ -14,44 +14,47 @@ class SetCardView: UIView {
     var number: Card.Number?
     var color: Card.Color?
     var filling: Card.Filling?
-    
-//    private func draw(shape: Card.Shape) {
-//        let drawingZone = bounds.inset(by: UIEdgeInsets(top: bounds.width / 4, left: bounds.width / 6, bottom: bounds.width / 4, right: bounds.width / 6))
-//
-//        switch shape {
-//        case .diamond:
-//            let path = UIBezierPath()
-//            path.move(to: CGPoint(x: drawingZone.midX, y: drawingZone.minY))
-//            path.addLine(to: CGPoint(x: drawingZone.maxX, y: drawingZone.midY))
-//            path.addLine(to: CGPoint(x: drawingZone.midX, y: drawingZone.maxY))
-//            path.addLine(to: CGPoint(x: drawingZone.minX, y: drawingZone.midY))
-//            path.close()
-//            UIColor.red.setStroke()
-//            path.lineWidth = 3
-//            path.stroke()
-//        default:
-//            print("dx")
-//        }
-//    }
-    
+
     // TODO: Iterate sayısı burada değil de color ve filling vereceğin metodun içinde loop etmek daha mantıklı gibi.
     // TODO:
-    private func getPath(for shape: Card.Shape, iterateCount: Int) -> UIBezierPath {
+    private func getPath(for shape: Card.Shape, iterate: Int) -> UIBezierPath {
         let path = UIBezierPath()
-        let drawingZone = bounds.inset(by: UIEdgeInsets(top: bounds.width / 4, left: bounds.width / 6, bottom: bounds.width / 4, right: bounds.width / 6))
+        let drawingZone = bounds.insetBy(dx: bounds.width * SizeProperties.drawingZoneInsetRatio, dy: bounds.height * SizeProperties.drawingZoneInsetRatio)
         
-        switch shape {
-        case .diamond:
-       //     for repetition in (1...iterateCount) {
-                path.move(to: CGPoint(x: drawingZone.midX - (drawingZone.width / CGFloat(1)), y: drawingZone.minY))
-                path.addLine(to: CGPoint(x: drawingZone.midX, y: drawingZone.midY))
+     //   let drawingZone = getEdgeInsetRect(for: 1)
+            
+            switch shape {
+            case .diamond:
+                path.move(to: CGPoint(x: drawingZone.midX, y: drawingZone.minY))
+                path.addLine(to: CGPoint(x: drawingZone.maxX, y: drawingZone.midY))
                 path.addLine(to: CGPoint(x: drawingZone.midX, y: drawingZone.maxY))
                 path.addLine(to: CGPoint(x: drawingZone.minX, y: drawingZone.midY))
                 path.close()
-       //     }
-        default: return UIBezierPath()
-        }
+            default: return UIBezierPath()
+            }
+        
+        path.addClip()
         return path
+    }
+    
+    private func fill(path: UIBezierPath, with color: Card.Color, and filling: Card.Filling) {
+        path.lineWidth = getOuterBorderWidth(for: path)
+        UIColor.blue.setStroke()    // placeholder
+        path.stroke()
+        
+        switch filling {
+        case .striped:
+            for point in stride(from: path.bounds.minX, to: path.bounds.maxX, by: getStrideFrequency(for: path)) {
+                path.move(to: CGPoint(x: point, y: bounds.minY))
+                path.addLine(to: CGPoint(x: point, y: bounds.maxY))
+            }
+            path.lineWidth = getStripeLineWidth(for: path)
+            path.stroke()
+        case .filled:
+            UIColor.blue.setFill() // ph
+            path.fill()
+        case .outlined: break
+        }
     }
     
     override init(frame: CGRect) {
@@ -60,6 +63,7 @@ class SetCardView: UIView {
         contentMode = .redraw
         backgroundColor = .clear
         isOpaque = false
+        layer.cornerRadius = setCardCornerRadius
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -70,23 +74,43 @@ class SetCardView: UIView {
     // An empty implementation adversely affects performance during animation.
     override func draw(_ rect: CGRect) {
         // Drawing code
-        let background = UIBezierPath(roundedRect: bounds, cornerRadius: bounds.width / 5)
+        let background = UIBezierPath(roundedRect: bounds, cornerRadius: setCardCornerRadius)
         UIColor.init(red: 0.9, green: 0.9, blue: 0.9, alpha: 1).setFill()
         background.addClip()
         background.fill()
-        
-        // if let shape = shape { draw(shape: shape) }
-   //     draw(shape: shape ?? .diamond)
-        let path = getPath(for: shape ?? .diamond, iterateCount: 1)
-        UIColor.red.setStroke()
-        path.lineWidth = 3
-        path.stroke()
+
+        fill(path: getPath(for: shape ?? .diamond, iterate: 2), with: .red, and: .striped)
     }
 }
 
-//
-//extension CGRect {
-//    var drawingZone: CGRect {
-//        return self.insetBy(dx: width / 4, dy: height / 4)
-//    }
-//}
+extension SetCardView {
+    private struct SizeProperties {
+        static let drawingZoneInsetRatio: CGFloat = 0.125
+        static let setCardCornerRadiusRatio: CGFloat = 0.2
+        static let outerBorderWidthRatioToPathWidth: CGFloat = 0.05
+        static let stripeLineWidthRatioToPathWidth: CGFloat = 0.017
+        static let strideFrequencyRatioToPathWidth: CGFloat = 0.1
+    }
+    
+    private func getEdgeInsetRect(forCount: Int) -> CGRect {
+        return bounds.insetBy(dx: bounds.width * (SizeProperties.drawingZoneInsetRatio * CGFloat(forCount)), dy: bounds.height * (SizeProperties.drawingZoneInsetRatio * CGFloat(forCount)))
+    }
+    
+    private var setCardCornerRadius: CGFloat {
+        return bounds.height * SizeProperties.setCardCornerRadiusRatio
+    }
+    
+    private func getOuterBorderWidth(for path: UIBezierPath) -> CGFloat {
+        return path.bounds.width * SizeProperties.outerBorderWidthRatioToPathWidth
+    }
+    
+    private func getStripeLineWidth(for path: UIBezierPath) -> CGFloat {
+        return path.bounds.width * SizeProperties.stripeLineWidthRatioToPathWidth
+    }
+    
+    private func getStrideFrequency(for path: UIBezierPath) -> CGFloat {
+        return path.bounds.width * SizeProperties.strideFrequencyRatioToPathWidth
+    }
+
+}
+
