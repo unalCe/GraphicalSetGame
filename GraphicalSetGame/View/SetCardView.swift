@@ -19,19 +19,17 @@ class SetCardView: UIView {
     // TODO:
     private func getPath(for shape: Card.Shape, iterate: Int) -> UIBezierPath {
         let path = UIBezierPath()
-        let drawingZone = bounds.insetBy(dx: bounds.width * SizeProperties.drawingZoneInsetRatio, dy: bounds.height * SizeProperties.drawingZoneInsetRatio)
+        let drawingZone = bounds.insetBy(dx: bounds.width * SizeProperties.safeZoneInsetRatio, dy: bounds.height * SizeProperties.safeZoneInsetRatio)
         
-     //   let drawingZone = getEdgeInsetRect(for: 1)
-            
-            switch shape {
-            case .diamond:
-                path.move(to: CGPoint(x: drawingZone.midX, y: drawingZone.minY))
-                path.addLine(to: CGPoint(x: drawingZone.maxX, y: drawingZone.midY))
-                path.addLine(to: CGPoint(x: drawingZone.midX, y: drawingZone.maxY))
-                path.addLine(to: CGPoint(x: drawingZone.minX, y: drawingZone.midY))
-                path.close()
-            default: return UIBezierPath()
-            }
+        switch shape {
+        case .diamond:
+            path.move(to: CGPoint(x: drawingZone.midX, y: drawingZone.minY))
+            path.addLine(to: CGPoint(x: drawingZone.maxX, y: drawingZone.midY))
+            path.addLine(to: CGPoint(x: drawingZone.midX, y: drawingZone.maxY))
+            path.addLine(to: CGPoint(x: drawingZone.minX, y: drawingZone.midY))
+            path.close()
+        default: return UIBezierPath()
+        }
         
         path.addClip()
         return path
@@ -85,7 +83,7 @@ class SetCardView: UIView {
 
 extension SetCardView {
     private struct SizeProperties {
-        static let drawingZoneInsetRatio: CGFloat = 0.125
+        static let safeZoneInsetRatio: CGFloat = 0.125
         static let setCardCornerRadiusRatio: CGFloat = 0.2
         static let outerBorderWidthRatioToPathWidth: CGFloat = 0.05
         static let stripeLineWidthRatioToPathWidth: CGFloat = 0.017
@@ -93,7 +91,7 @@ extension SetCardView {
     }
     
     private func getEdgeInsetRect(forCount: Int) -> CGRect {
-        return bounds.insetBy(dx: bounds.width * (SizeProperties.drawingZoneInsetRatio * CGFloat(forCount)), dy: bounds.height * (SizeProperties.drawingZoneInsetRatio * CGFloat(forCount)))
+        return bounds.insetBy(dx: bounds.width * (SizeProperties.safeZoneInsetRatio * CGFloat(forCount)), dy: bounds.height * (SizeProperties.safeZoneInsetRatio * CGFloat(forCount)))
     }
     
     private var setCardCornerRadius: CGFloat {
