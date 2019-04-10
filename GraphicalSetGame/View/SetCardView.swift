@@ -17,9 +17,11 @@ class SetCardView: UIView {
 
     // TODO: Iterate sayısı burada değil de color ve filling vereceğin metodun içinde loop etmek daha mantıklı gibi.
     // TODO:
-    private func getPath(for shape: Card.Shape, iterate: Int) -> UIBezierPath {
+    private func getPath(for shape: Card.Shape, count: Int) -> UIBezierPath {
         let path = UIBezierPath()
         let drawingZone = bounds.insetBy(dx: bounds.width * SizeProperties.safeZoneInsetRatio, dy: bounds.height * SizeProperties.safeZoneInsetRatio)
+        
+        
         
         switch shape {
         case .diamond:
@@ -28,7 +30,12 @@ class SetCardView: UIView {
             path.addLine(to: CGPoint(x: drawingZone.midX, y: drawingZone.maxY))
             path.addLine(to: CGPoint(x: drawingZone.minX, y: drawingZone.midY))
             path.close()
-        default: return UIBezierPath()
+        case .oval:
+            path.addArc(withCenter: CGPoint(x: drawingZone.midX, y: drawingZone.midY), radius: drawingZone.height / 2, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
+            // Make a rounded rect.
+        case .squiggle:
+            // path.move(to: <#T##CGPoint#>)
+            print("draw")
         }
         
         path.addClip()
@@ -77,7 +84,7 @@ class SetCardView: UIView {
         background.addClip()
         background.fill()
 
-        fill(path: getPath(for: shape ?? .diamond, iterate: 2), with: .red, and: .striped)
+        fill(path: getPath(for: shape ?? .diamond, count: 2), with: .red, and: .striped)
     }
 }
 
@@ -85,8 +92,8 @@ extension SetCardView {
     private struct SizeProperties {
         static let safeZoneInsetRatio: CGFloat = 0.125
         static let setCardCornerRadiusRatio: CGFloat = 0.2
-        static let outerBorderWidthRatioToPathWidth: CGFloat = 0.05
-        static let stripeLineWidthRatioToPathWidth: CGFloat = 0.017
+        static let outerBorderHeightRatioToPathWidth: CGFloat = 0.05
+        static let stripeLineHeightRatioToPathWidth: CGFloat = 0.017
         static let strideFrequencyRatioToPathWidth: CGFloat = 0.1
     }
     
@@ -99,11 +106,11 @@ extension SetCardView {
     }
     
     private func getOuterBorderWidth(for path: UIBezierPath) -> CGFloat {
-        return path.bounds.width * SizeProperties.outerBorderWidthRatioToPathWidth
+        return path.bounds.height * SizeProperties.outerBorderHeightRatioToPathWidth
     }
     
     private func getStripeLineWidth(for path: UIBezierPath) -> CGFloat {
-        return path.bounds.width * SizeProperties.stripeLineWidthRatioToPathWidth
+        return path.bounds.height * SizeProperties.stripeLineHeightRatioToPathWidth
     }
     
     private func getStrideFrequency(for path: UIBezierPath) -> CGFloat {
