@@ -15,24 +15,23 @@ class SetCardView: UIView {
     var color: Card.Color?
     var filling: Card.Filling?
 
-    // TODO: Iterate sayısı burada değil de color ve filling vereceğin metodun içinde loop etmek daha mantıklı gibi.
-    // TODO:
+    
     private func getPath(for shape: Card.Shape, count: Int) -> UIBezierPath {
-        let path = UIBezierPath()
+        var path = UIBezierPath()
         let drawingZone = bounds.insetBy(dx: bounds.width * SizeProperties.safeZoneInsetRatio, dy: bounds.height * SizeProperties.safeZoneInsetRatio)
+        let individualWidth = drawingZone.width * SizeProperties.individualShapeWidthRatioToDrawingZone
+        let firstShapeRect = CGRect(x: drawingZone.midX - (individualWidth / 2) * CGFloat(count), y: drawingZone.minY, width: individualWidth, height: drawingZone.height)
         
-        
-        
+        // for loop ile shapeRect ileri kaydır dene.
         switch shape {
         case .diamond:
-            path.move(to: CGPoint(x: drawingZone.midX, y: drawingZone.minY))
-            path.addLine(to: CGPoint(x: drawingZone.maxX, y: drawingZone.midY))
-            path.addLine(to: CGPoint(x: drawingZone.midX, y: drawingZone.maxY))
-            path.addLine(to: CGPoint(x: drawingZone.minX, y: drawingZone.midY))
+            path.move(to: CGPoint(x: firstShapeRect.midX, y: firstShapeRect.minY))
+            path.addLine(to: CGPoint(x: firstShapeRect.maxX, y: firstShapeRect.midY))
+            path.addLine(to: CGPoint(x: firstShapeRect.midX, y: firstShapeRect.maxY))
+            path.addLine(to: CGPoint(x: firstShapeRect.minX, y: firstShapeRect.midY))
             path.close()
         case .oval:
-            path.addArc(withCenter: CGPoint(x: drawingZone.midX, y: drawingZone.midY), radius: drawingZone.height / 2, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
-            // Make a rounded rect.
+            path = UIBezierPath(roundedRect: firstShapeRect, cornerRadius: individualWidth / 2)
         case .squiggle:
             // path.move(to: <#T##CGPoint#>)
             print("draw")
@@ -84,7 +83,7 @@ class SetCardView: UIView {
         background.addClip()
         background.fill()
 
-        fill(path: getPath(for: shape ?? .diamond, count: 2), with: .red, and: .striped)
+        fill(path: getPath(for: shape ?? .diamond, count: 1), with: .red, and: .striped)
     }
 }
 
@@ -94,7 +93,8 @@ extension SetCardView {
         static let setCardCornerRadiusRatio: CGFloat = 0.2
         static let outerBorderHeightRatioToPathWidth: CGFloat = 0.05
         static let stripeLineHeightRatioToPathWidth: CGFloat = 0.017
-        static let strideFrequencyRatioToPathWidth: CGFloat = 0.1
+        static let strideFrequencyRatioToPathWidth: CGFloat = 0.14
+        static let individualShapeWidthRatioToDrawingZone: CGFloat = 0.33
     }
     
     private func getEdgeInsetRect(forCount: Int) -> CGRect {
@@ -116,6 +116,11 @@ extension SetCardView {
     private func getStrideFrequency(for path: UIBezierPath) -> CGFloat {
         return path.bounds.width * SizeProperties.strideFrequencyRatioToPathWidth
     }
+}
 
+extension CGRect {
+    var center: CGPoint {
+        return CGPoint(x: self.midX, y: self.midY)
+    }
 }
 
