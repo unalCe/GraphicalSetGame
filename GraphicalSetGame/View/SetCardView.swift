@@ -17,25 +17,45 @@ class SetCardView: UIView {
 
     
     private func getPath(for shape: Card.Shape, count: Int) -> UIBezierPath {
-        var path = UIBezierPath()
+        let path = UIBezierPath()
         let drawingZone = bounds.insetBy(dx: bounds.width * SizeProperties.safeZoneInsetRatio, dy: bounds.height * SizeProperties.safeZoneInsetRatio)
         let individualWidth = drawingZone.width * SizeProperties.individualShapeWidthRatioToDrawingZone
-        let firstShapeRect = CGRect(x: drawingZone.midX - (individualWidth / 2) * CGFloat(count), y: drawingZone.minY, width: individualWidth, height: drawingZone.height)
         
-        // for loop ile shapeRect ileri kaydır dene.
-        switch shape {
-        case .diamond:
-            path.move(to: CGPoint(x: firstShapeRect.midX, y: firstShapeRect.minY))
-            path.addLine(to: CGPoint(x: firstShapeRect.maxX, y: firstShapeRect.midY))
-            path.addLine(to: CGPoint(x: firstShapeRect.midX, y: firstShapeRect.maxY))
-            path.addLine(to: CGPoint(x: firstShapeRect.minX, y: firstShapeRect.midY))
-            path.close()
-        case .oval:
-            path = UIBezierPath(roundedRect: firstShapeRect, cornerRadius: individualWidth / 2)
-        case .squiggle:
-            // path.move(to: <#T##CGPoint#>)
-            print("draw")
-        }
+        var singleShapeZone = CGRect(x: drawingZone.midX - (individualWidth / 2) * CGFloat(count), y: drawingZone.minY, width: individualWidth, height: drawingZone.height)
+        var iterate = 0
+        
+        repeat {
+            switch shape {
+            case .diamond:
+                path.move(to: CGPoint(x: singleShapeZone.midX, y: singleShapeZone.minY))
+                path.addLine(to: CGPoint(x: singleShapeZone.maxX, y: singleShapeZone.midY))
+                path.addLine(to: CGPoint(x: singleShapeZone.midX, y: singleShapeZone.maxY))
+                path.addLine(to: CGPoint(x: singleShapeZone.minX, y: singleShapeZone.midY))
+                path.close()
+            case .oval:
+                let ovalRadius = singleShapeZone.width / 2
+                let upperArcCenter = CGPoint(x: singleShapeZone.midX, y: singleShapeZone.minY + ovalRadius)
+                let footerArcCenter = CGPoint(x: singleShapeZone.midX, y: singleShapeZone.maxY - ovalRadius)
+                path.move(to: CGPoint(x: singleShapeZone.minX, y: singleShapeZone.minY + ovalRadius))
+                path.addArc(withCenter: upperArcCenter, radius: ovalRadius, startAngle: CGFloat.pi, endAngle: 0, clockwise: true)
+                path.addLine(to: CGPoint(x: singleShapeZone.maxX, y: singleShapeZone.maxY - ovalRadius))
+                path.addArc(withCenter: footerArcCenter, radius: ovalRadius, startAngle: 0, endAngle: CGFloat.pi, clockwise: true)
+                path.close()
+            case .squiggle:
+                // path.move(to: <#T##CGPoint#>)
+                let halfTheWidth = singleShapeZone.width / 2
+                
+                // let upperLeftCurverStartPoint = CGPoint
+                path.move(to: CGPoint(x: singleShapeZone.minX, y: halfTheWidth))
+                path.addCurve(to: CGPoint(x: singleShapeZone.maxX, y: singleShapeZone.width * 0.8),
+                              controlPoint1: CGPoint(x: halfTheWidth, y: 0),
+                              controlPoint2: CGPoint(x: singleShapeZone.width * 1.2, y: singleShapeZone.width * 0.2))
+                
+            }
+            
+            singleShapeZone.origin.x += singleShapeZone.width + 2
+            iterate += 1
+        } while (iterate < count)
         
         path.addClip()
         return path
@@ -83,7 +103,7 @@ class SetCardView: UIView {
         background.addClip()
         background.fill()
 
-        fill(path: getPath(for: shape ?? .diamond, count: 1), with: .red, and: .striped)
+        fill(path: getPath(for: shape ?? .squiggle, count: 1), with: .red, and: .outlined)
     }
 }
 
@@ -114,7 +134,11 @@ extension SetCardView {
     }
     
     private func getStrideFrequency(for path: UIBezierPath) -> CGFloat {
-        return path.bounds.width * SizeProperties.strideFrequencyRatioToPathWidth
+        if let number = number {
+            return path.bounds.width * SizeProperties.strideFrequencyRatioToPathWidth / CGFloat(number.rawValue)
+        } else {
+            return path.bounds.width * SizeProperties.strideFrequencyRatioToPathWidth
+        }
     }
 }
 
