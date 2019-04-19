@@ -10,13 +10,14 @@ import UIKit
 
 class SetCardView: UIView {
 
-//    var shape: Card.Shape?
-//    var number: Card.Number?
-//    var color: Card.Color?
-//    var filling: Card.Filling?
-
     var setCard: Card?
     
+    /**
+     Returns a UIBezierPath for a spesific card shape and count.
+     - parameter shape: Shape of the drawing
+     - parameter count: Count of the shape
+     - returns: Resulting bezierpath
+     */
     private func getPath(for shape: Card.Shape, count: Int) -> UIBezierPath {
         let path = UIBezierPath()
         let drawingZone = bounds.insetBy(dx: bounds.width * SizeProperties.safeZoneInsetRatio, dy: bounds.height * SizeProperties.safeZoneInsetRatio)
@@ -60,7 +61,7 @@ class SetCardView: UIView {
                               controlPoint2: CGPoint(x: singleShapeZone.minX - singleShapeZone.width * 0.1, y: singleShapeZone.midY * 0.8))
             }
             
-            singleShapeZone.origin.x += singleShapeZone.width + 2
+            singleShapeZone.origin.x += singleShapeZone.width + 2 // Two points of spacing between shapes.
             iterate += 1
         } while (iterate < count)
         
@@ -68,11 +69,16 @@ class SetCardView: UIView {
         return path
     }
     
+    /**
+     Fills the given path according to color and filling
+     - parameter path: Bezierpath of the drawing
+     - parameter color: Color of the drawing
+     - parameter filling: Filling of the shape
+     */
     private func fill(path: UIBezierPath, with color: Card.Color, and filling: Card.Filling) {
-        path.lineWidth = getOuterBorderWidth(for: path)
-        
         guard let cardColor = setCard?.color.rawValue else { return }
         
+        path.lineWidth = getOuterBorderWidth(for: path)
         UIColor(named: cardColor)?.setStroke()
         path.stroke()
         
@@ -91,7 +97,11 @@ class SetCardView: UIView {
         }
     }
     
-    /// Initializes the view properties and the card instance
+    /**
+     Custom initializer of the view. Adjusts the frame of the view and sets the card instance that will be drawed.
+     - parameter frame: Frame of the view
+     - parameter card: Card object that will be drawed.
+     */
     init(frame: CGRect, with card: Card) {
         super.init(frame: frame)
         
