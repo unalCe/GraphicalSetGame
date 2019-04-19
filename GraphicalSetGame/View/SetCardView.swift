@@ -133,6 +133,7 @@ class SetCardView: UIView {
     }
 }
 
+// MARK: -
 extension SetCardView {
     private struct SizeProperties {
         static let safeZoneInsetRatio: CGFloat = 0.125
