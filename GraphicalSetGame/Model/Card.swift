@@ -32,6 +32,7 @@ struct Card: Equatable {
         return identifierCount
     }
     
+    /// Initializes the card according to shape, color, filling and number properties.
     init(shape: Shape, color: Color, filling: Filling, number: Number) {
         self.shape = shape; self.color = color; self.number = number; self.filling = filling
         identifier = Card.getUniqueIdentifier()
@@ -51,7 +52,7 @@ extension Card {
         case outlined
     }
     
-    enum Color: CaseIterable {
+    enum Color: String, CaseIterable {
         case red
         case purple
         case green

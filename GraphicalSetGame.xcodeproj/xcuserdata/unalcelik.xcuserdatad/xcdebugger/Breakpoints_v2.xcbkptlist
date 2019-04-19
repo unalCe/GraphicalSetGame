@@ -19,5 +19,69 @@
             landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GraphicalSetGame/View/SetGameDeckView.swift"
+            timestampString = "577397219.632336"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "layoutSubviews()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GraphicalSetGame/View/SetCardView.swift"
+            timestampString = "577397219.632423"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "SetCardView"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GraphicalSetGame.SetCardView.setCard.getter : Swift.Optional&lt;GraphicalSetGame.Card&gt;"
+                  moduleName = "GraphicalSetGame"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/unalcelik/Developer/GraphicalSetGame/GraphicalSetGame/View/SetCardView.swift"
+                  timestampString = "577397185.678381"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "139">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GraphicalSetGame.SetCardView.setCard.setter : Swift.Optional&lt;GraphicalSetGame.Card&gt;"
+                  moduleName = "GraphicalSetGame"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/unalcelik/Developer/GraphicalSetGame/GraphicalSetGame/View/SetCardView.swift"
+                  timestampString = "577397185.680719"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "195">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

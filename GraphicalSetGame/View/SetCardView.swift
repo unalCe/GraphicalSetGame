@@ -10,11 +10,12 @@ import UIKit
 
 class SetCardView: UIView {
 
-    var shape: Card.Shape?
-    var number: Card.Number?
-    var color: Card.Color?
-    var filling: Card.Filling?
+//    var shape: Card.Shape?
+//    var number: Card.Number?
+//    var color: Card.Color?
+//    var filling: Card.Filling?
 
+    var setCard: Card?
     
     private func getPath(for shape: Card.Shape, count: Int) -> UIBezierPath {
         let path = UIBezierPath()
@@ -42,15 +43,21 @@ class SetCardView: UIView {
                 path.addArc(withCenter: footerArcCenter, radius: ovalRadius, startAngle: 0, endAngle: CGFloat.pi, clockwise: true)
                 path.close()
             case .squiggle:
-                // path.move(to: <#T##CGPoint#>)
                 let halfTheWidth = singleShapeZone.width / 2
                 
-                // let upperLeftCurverStartPoint = CGPoint
-                path.move(to: CGPoint(x: singleShapeZone.minX, y: halfTheWidth))
-                path.addCurve(to: CGPoint(x: singleShapeZone.maxX, y: singleShapeZone.width * 0.8),
-                              controlPoint1: CGPoint(x: halfTheWidth, y: 0),
-                              controlPoint2: CGPoint(x: singleShapeZone.width * 1.2, y: singleShapeZone.width * 0.2))
-                
+                path.move(to: CGPoint(x: singleShapeZone.minX + halfTheWidth * 0.4, y: halfTheWidth * 1.1))
+                path.addCurve(to: CGPoint(x: singleShapeZone.maxX - halfTheWidth * 0.3, y: halfTheWidth * 1.5),
+                              controlPoint1: CGPoint(x: singleShapeZone.minX + halfTheWidth * 0.9, y: singleShapeZone.height * 0.1),
+                              controlPoint2: CGPoint(x: singleShapeZone.minX + singleShapeZone.width * 1.2, y: halfTheWidth))
+                path.addCurve(to: CGPoint(x: singleShapeZone.maxX - singleShapeZone.width * 0.1, y: singleShapeZone.maxY * 0.85),
+                              controlPoint1: CGPoint(x: singleShapeZone.midX - halfTheWidth * 0.05, y: singleShapeZone.midY * 0.8),
+                              controlPoint2: CGPoint(x: singleShapeZone.maxX, y: singleShapeZone.maxY * 0.7))
+                path.addCurve(to: CGPoint(x: singleShapeZone.midX - halfTheWidth * 0.45, y: singleShapeZone.maxY * 0.75),
+                              controlPoint1: CGPoint(x: singleShapeZone.maxX - singleShapeZone.width * 0.3, y: bounds.maxY),
+                              controlPoint2: CGPoint(x: singleShapeZone.minX - singleShapeZone.width * 0.3, y: singleShapeZone.maxY))
+                path.addCurve(to: CGPoint(x: singleShapeZone.minX + halfTheWidth * 0.4, y: halfTheWidth * 1.1),
+                              controlPoint1: CGPoint(x: singleShapeZone.midX, y: singleShapeZone.maxY * 0.67),
+                              controlPoint2: CGPoint(x: singleShapeZone.minX - singleShapeZone.width * 0.1, y: singleShapeZone.midY * 0.8))
             }
             
             singleShapeZone.origin.x += singleShapeZone.width + 2
@@ -63,7 +70,10 @@ class SetCardView: UIView {
     
     private func fill(path: UIBezierPath, with color: Card.Color, and filling: Card.Filling) {
         path.lineWidth = getOuterBorderWidth(for: path)
-        UIColor.blue.setStroke()    // placeholder
+        
+        guard let cardColor = setCard?.color.rawValue else { return }
+        
+        UIColor(named: cardColor)?.setStroke()
         path.stroke()
         
         switch filling {
@@ -75,15 +85,17 @@ class SetCardView: UIView {
             path.lineWidth = getStripeLineWidth(for: path)
             path.stroke()
         case .filled:
-            UIColor.blue.setFill() // ph
+            UIColor(named: cardColor)?.setFill()
             path.fill()
         case .outlined: break
         }
     }
     
-    override init(frame: CGRect) {
+    /// Initializes the view properties and the card instance
+    init(frame: CGRect, with card: Card) {
         super.init(frame: frame)
         
+        setCard = card
         contentMode = .redraw
         backgroundColor = .clear
         isOpaque = false
@@ -103,7 +115,11 @@ class SetCardView: UIView {
         background.addClip()
         background.fill()
 
-        fill(path: getPath(for: shape ?? .squiggle, count: 1), with: .red, and: .outlined)
+        if let card = setCard {
+            fill(path: getPath(for: card.shape, count: card.number.rawValue), with: card.color, and: card.filling)
+        } else {
+            // TODO: Handle here
+        }
     }
 }
 
@@ -112,7 +128,7 @@ extension SetCardView {
         static let safeZoneInsetRatio: CGFloat = 0.125
         static let setCardCornerRadiusRatio: CGFloat = 0.2
         static let outerBorderHeightRatioToPathWidth: CGFloat = 0.05
-        static let stripeLineHeightRatioToPathWidth: CGFloat = 0.017
+        static let stripeLineHeightRatioToPathWidth: CGFloat = 0.013
         static let strideFrequencyRatioToPathWidth: CGFloat = 0.14
         static let individualShapeWidthRatioToDrawingZone: CGFloat = 0.33
     }
@@ -134,10 +150,10 @@ extension SetCardView {
     }
     
     private func getStrideFrequency(for path: UIBezierPath) -> CGFloat {
-        if let number = number {
+        if let number = setCard?.number {
             return path.bounds.width * SizeProperties.strideFrequencyRatioToPathWidth / CGFloat(number.rawValue)
         } else {
-            return path.bounds.width * SizeProperties.strideFrequencyRatioToPathWidth
+            return path.bounds.width * SizeProperties.strideFrequencyRatioToPathWidth / 3
         }
     }
 }

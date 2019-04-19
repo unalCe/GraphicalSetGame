@@ -30,7 +30,7 @@ class SetGameDeckView: UIView {
         super.layoutSubviews()
         customiseGrid()
         
-        let cardView = SetCardView(frame: CGRect(x: 50, y: 50, width: 200, height: 120))
+        let cardView = SetCardView(frame: CGRect(x: 50, y: 50, width: 200, height: 120), with: cards[1])
         addSubview(cardView)
     }
     
