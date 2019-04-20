@@ -66,6 +66,6 @@ class GameViewController: UIViewController {
         dealThreeMoreCardsButton.isEnabled = game.didThreeCardSelected || (game.gameRange < game.upperCardLimit && game.deck.count > 2)
         
         setGameDeckView.cards = game.cardsOnTable
+        setGameDeckView.setNeedsLayout()
     }
-
 }
