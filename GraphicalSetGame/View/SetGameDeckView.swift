@@ -35,17 +35,9 @@ class SetGameDeckView: UIView {
     
     private func updateSubviews() {
         removeAllSubviews()
-        var cardBorderColor = UIColor.darkGray.cgColor
         
         for index in 0..<cellCount {
             let cardView = SetCardView(frame: grid?[index]?.insetBy(dx: cellSpace, dy: cellSpace) ?? .zero, with: cards[index])
-            
-            if cards[index].isSelected { cardBorderColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1).cgColor }
-//
-//            cardView.layer.cornerRadius = cellSpace * 3
-//            cardView.layer.borderColor = cardBorderColor
-//            cardView.layer.borderWidth = cellSpace / 3
-//            cardView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
             addSubview(cardView)
         }
     }

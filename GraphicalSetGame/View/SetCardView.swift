@@ -78,7 +78,7 @@ class SetCardView: UIView {
     private func fill(path: UIBezierPath, with color: Card.Color, and filling: Card.Filling) {
         guard let cardColor = setCard?.color.rawValue else { return }
         
-        path.lineWidth = getOuterBorderWidth(for: path)
+        path.lineWidth = getShapeOuterBorderWidth(for: path)
         UIColor(named: cardColor)?.setStroke()
         path.stroke()
         
@@ -119,13 +119,18 @@ class SetCardView: UIView {
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
     override func draw(_ rect: CGRect) {
-        // Drawing code
+        // Draw card background
         let background = UIBezierPath(roundedRect: bounds, cornerRadius: setCardCornerRadius)
         UIColor.init(red: 0.9, green: 0.9, blue: 0.9, alpha: 1).setFill()
         background.addClip()
         background.fill()
-
+        
         if let card = setCard {
+            // Draw card border
+            (card.isSelected) ? selectedBorderColor.setStroke() : UIColor.darkGray.setStroke()
+            background.lineWidth = getCardOuterBorderWidth(for: background, if: card.isSelected)
+            background.stroke()
+            
             fill(path: getPath(for: card.shape, count: card.number.rawValue), with: card.color, and: card.filling)
         } else {
             // TODO: Handle here
@@ -136,6 +141,8 @@ class SetCardView: UIView {
 // MARK: -
 extension SetCardView {
     private struct SizeProperties {
+        static let defaultBorderWidthRatioToWidth: CGFloat = 0.02
+        static let selectedBorderWidthRatioToWidth: CGFloat = 0.04
         static let safeZoneInsetRatio: CGFloat = 0.125
         static let setCardCornerRadiusRatio: CGFloat = 0.2
         static let outerBorderHeightRatioToPathWidth: CGFloat = 0.05
@@ -148,11 +155,26 @@ extension SetCardView {
         return bounds.insetBy(dx: bounds.width * (SizeProperties.safeZoneInsetRatio * CGFloat(forCount)), dy: bounds.height * (SizeProperties.safeZoneInsetRatio * CGFloat(forCount)))
     }
     
+    // TODO: Test if it's working correct.
+    private var selectedBorderColor: UIColor {
+        get {
+            if let cardMatch = setCard?.isMatched {
+                return cardMatch ? UIColor.green : UIColor.red }
+            else {
+                return UIColor.blue
+            }
+        }
+    }
+    
     private var setCardCornerRadius: CGFloat {
         return bounds.height * SizeProperties.setCardCornerRadiusRatio
     }
     
-    private func getOuterBorderWidth(for path: UIBezierPath) -> CGFloat {
+    private func getCardOuterBorderWidth(for path: UIBezierPath, if selected: Bool) -> CGFloat {
+        return path.bounds.height * (selected ? SizeProperties.selectedBorderWidthRatioToWidth : SizeProperties.defaultBorderWidthRatioToWidth)
+    }
+    
+    private func getShapeOuterBorderWidth(for path: UIBezierPath) -> CGFloat {
         return path.bounds.height * SizeProperties.outerBorderHeightRatioToPathWidth
     }
     
