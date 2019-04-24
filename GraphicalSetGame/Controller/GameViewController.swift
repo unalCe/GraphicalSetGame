@@ -14,6 +14,8 @@ class GameViewController: UIViewController {
     @IBOutlet weak var setGameDeckView: SetGameDeckView! {
         didSet {
             setGameDeckView.cards = game.cardsOnTable
+            let tap = UITapGestureRecognizer(target: self, action: #selector(tapSetCard(byHandlingGestureRecognizedBy:)))
+            setGameDeckView.addGestureRecognizer(tap)
         }
     }
     
@@ -35,18 +37,9 @@ class GameViewController: UIViewController {
         updateViews()
     }
     
-//    @IBAction func chooseCard(_ sender: UIButton) {
-//        if let cardNo = cardCollection.index(of: sender) {
-//            game.selectCard(at: cardNo)
-//            initializeDeckView()
-//            updateViews()
-//        } else {
-//            print("There is no such a card on the table.")
-//        }
-//    }
-    
     // MARK: - Variables
     var game = SetGame()
+    var selectedSetCardViewNo: Int?
     let defaultBorderWidth: CGFloat = 0.5
     let defaultBorderColor = UIColor.darkGray.cgColor
     let selectedBorderWidth: CGFloat = 3
@@ -70,10 +63,16 @@ class GameViewController: UIViewController {
         setGameDeckView.setNeedsLayout()
     }
     
-    // ?? may not be needed here.
+    
     @objc func tapSetCard(byHandlingGestureRecognizedBy recognizer: UITapGestureRecognizer) {
         switch recognizer.state {
-        case .ended: print("bişeyler")
+        case .ended:
+            guard let target = setGameDeckView.hitTest(recognizer.location(in: setGameDeckView), with: nil) as? SetCardView else { return }
+            
+            if let cardNo = setGameDeckView.subviews.index(of: target) {
+                game.selectCard(at: cardNo)
+                updateViews()
+            }
         default: break
         }
     }

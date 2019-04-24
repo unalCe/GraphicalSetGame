@@ -144,7 +144,7 @@ class SetCardView: UIView {
 extension SetCardView {
     private struct SizeProperties {
         static let defaultBorderWidthRatioToWidth: CGFloat = 0.02
-        static let selectedBorderWidthRatioToWidth: CGFloat = 0.04
+        static let selectedBorderWidthRatioToWidth: CGFloat = 0.075
         static let safeZoneInsetRatio: CGFloat = 0.125
         static let setCardCornerRadiusRatio: CGFloat = 0.2
         static let outerBorderHeightRatioToPathWidth: CGFloat = 0.05
@@ -153,17 +153,13 @@ extension SetCardView {
         static let individualShapeWidthRatioToDrawingZone: CGFloat = 0.33
     }
     
-    private func getEdgeInsetRect(forCount: Int) -> CGRect {
-        return bounds.insetBy(dx: bounds.width * (SizeProperties.safeZoneInsetRatio * CGFloat(forCount)), dy: bounds.height * (SizeProperties.safeZoneInsetRatio * CGFloat(forCount)))
-    }
-    
-    // TODO: Test if it's working correct.
+    /// Sets the selected card's border color. Blue, if the card is selected but not matched. Green, if all three is a match. Red, if the set is a mismatch.
     private var selectedBorderColor: UIColor {
         get {
             if let cardMatch = setCard?.isMatched {
-                return cardMatch ? UIColor.green : UIColor.red }
+                return cardMatch ? #colorLiteral(red: 0, green: 1, blue: 0.08472456465, alpha: 1) : #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) }
             else {
-                return UIColor.blue
+                return #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
             }
         }
     }
