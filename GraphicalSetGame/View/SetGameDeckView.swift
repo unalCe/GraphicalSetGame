@@ -12,7 +12,7 @@ class SetGameDeckView: UIView {
     
     var cards = [Card]() { didSet { updateSubviews() } }
     var cellCount: Int { get { return cards.count } }
-    var cellSpace: CGFloat { get { return CGFloat(2 + (32 / cellCount)) } }
+    var cellSpace: CGFloat { get { return CGFloat(2 + (32 / cellCount)) } }     // 32 looked good. Check if it's ok for other screen sizes.
     
     private var grid: Grid?
     private func customiseGrid() {
@@ -40,26 +40,6 @@ class SetGameDeckView: UIView {
             let cardView = SetCardView(frame: grid?[index]?.insetBy(dx: cellSpace, dy: cellSpace) ?? .zero, with: cards[index])
             addSubview(cardView)
         }
-    }
-        
-//        var cardBorderColor = UIColor.darkGray.cgColor
-
-//        for index in 0..<cellCount {
-//
-//            if cards[index].isMatched ?? false { continue }
-//
-//            let cardView = UIView(frame: grid?[index]?.insetBy(dx: cellSpace, dy: cellSpace) ?? .zero)
-//
-//            if cards[index].isSelected { cardBorderColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1).cgColor }
-//            cardView.layer.cornerRadius = cellSpace * 3
-//            cardView.layer.borderColor = cardBorderColor
-//            cardView.layer.borderWidth = cellSpace / 3
-//            cardView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
-//            addSubview(cardView)
-//        }
-    
-    func selectSetCard(forIndex index: Int) {
-        cards[index].isSelected = true
     }
     
     // Only override draw() if you perform custom drawing.

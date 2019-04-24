@@ -55,6 +55,7 @@ class GameViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setGameDeckView.isUserInteractionEnabled = true
         
         updateViews()
     }
@@ -67,5 +68,13 @@ class GameViewController: UIViewController {
         
         setGameDeckView.cards = game.cardsOnTable
         setGameDeckView.setNeedsLayout()
+    }
+    
+    // ?? may not be needed here.
+    @objc func tapSetCard(byHandlingGestureRecognizedBy recognizer: UITapGestureRecognizer) {
+        switch recognizer.state {
+        case .ended: print("bişeyler")
+        default: break
+        }
     }
 }

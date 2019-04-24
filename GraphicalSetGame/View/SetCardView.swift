@@ -23,6 +23,7 @@ class SetCardView: UIView {
         let drawingZone = bounds.insetBy(dx: bounds.width * SizeProperties.safeZoneInsetRatio, dy: bounds.height * SizeProperties.safeZoneInsetRatio)
         let individualWidth = drawingZone.width * SizeProperties.individualShapeWidthRatioToDrawingZone
         
+        // Center the shapes according to count.
         var singleShapeZone = CGRect(x: drawingZone.midX - (individualWidth / 2) * CGFloat(count), y: drawingZone.minY, width: individualWidth, height: drawingZone.height)
         var iterate = 0
         
@@ -110,6 +111,7 @@ class SetCardView: UIView {
         backgroundColor = .clear
         isOpaque = false
         layer.cornerRadius = setCardCornerRadius
+        isUserInteractionEnabled = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -121,7 +123,7 @@ class SetCardView: UIView {
     override func draw(_ rect: CGRect) {
         // Draw card background
         let background = UIBezierPath(roundedRect: bounds, cornerRadius: setCardCornerRadius)
-        UIColor.init(red: 0.9, green: 0.9, blue: 0.9, alpha: 1).setFill()
+        UIColor.init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1).setFill()
         background.addClip()
         background.fill()
         
