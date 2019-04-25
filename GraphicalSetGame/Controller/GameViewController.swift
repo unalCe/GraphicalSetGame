@@ -16,6 +16,13 @@ class GameViewController: UIViewController {
             setGameDeckView.cards = game.cardsOnTable
             let tap = UITapGestureRecognizer(target: self, action: #selector(tapSetCard(byHandlingGestureRecognizedBy:)))
             setGameDeckView.addGestureRecognizer(tap)
+            
+            let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(dealThreeMoreCards(with:)))
+            swipeDown.direction = .down
+            setGameDeckView.addGestureRecognizer(swipeDown)
+            
+            let rotateGest = UIRotationGestureRecognizer(target: self, action: #selector(shuffleCards(with:)))
+            setGameDeckView.addGestureRecognizer(rotateGest)
         }
     }
     
@@ -63,7 +70,6 @@ class GameViewController: UIViewController {
         setGameDeckView.setNeedsLayout()
     }
     
-    
     @objc func tapSetCard(byHandlingGestureRecognizedBy recognizer: UITapGestureRecognizer) {
         switch recognizer.state {
         case .ended:
@@ -73,6 +79,23 @@ class GameViewController: UIViewController {
                 game.selectCard(at: cardNo)
                 updateViews()
             }
+        default: break
+        }
+    }
+    
+    @objc func dealThreeMoreCards(with swipeGesture: UISwipeGestureRecognizer) {
+        switch swipeGesture.state {
+        case .ended:
+            dealThreeMoreCardsButton.sendActions(for: .touchUpInside)
+        default: break
+        }
+    }
+    
+    @objc func shuffleCards(with rotationGesture: UIRotationGestureRecognizer) {
+        switch rotationGesture.state {
+        case .ended:
+            game.shuffleCards()
+            updateViews()
         default: break
         }
     }

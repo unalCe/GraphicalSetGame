@@ -38,12 +38,6 @@ class SetGame
         }
     }
     
-    var matchedCardsThatWillBeRemoved: [Card] {
-        get {
-            return cardsOnTable.filter() { $0.isMatched ?? false && !$0.isSelected }
-        }
-    }
-    
     // MARK: - Functions
     /**
      If the deck is not empty, replaces the card in the table for a given index. Otherwise the card will be deleted.
@@ -68,6 +62,12 @@ class SetGame
                 cardsOnTable[index].isSelected = false; cardsOnTable[index].isMatched = nil
             }
         }
+        removeMatchedCards()
+    }
+    
+    /// Removes matched cards.
+    private func removeMatchedCards() {
+        cardsOnTable.removeAll(where: {$0.isMatched ?? false && !$0.isSelected })
     }
     
 /**
@@ -113,6 +113,12 @@ class SetGame
         // If the count is 1 then all of them are same. If it's 3 then all of them are unique.
         let isSet = numbers.count != 2 && shapes.count != 2 && colors.count != 2 && fillings.count != 2
         return isSet
+    }
+    
+    /// Shuffle cards.  // TODO: gameRange, deck içerisindeki öğe sayısını geçtiğinde sıkıntı yaratıyor. sabah düşün.
+    func shuffleCards() {
+        deck.shuffle()
+        cardsOnTable = Array(deck.prefix(upTo: gameRange))
     }
     
 /// Create the deck then shuffle. After that, fill up the table considering game range
