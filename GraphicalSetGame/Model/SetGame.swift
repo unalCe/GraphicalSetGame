@@ -115,10 +115,13 @@ class SetGame
         return isSet
     }
     
-    /// Shuffle cards.  // TODO: gameRange, deck içerisindeki öğe sayısını geçtiğinde sıkıntı yaratıyor. sabah düşün.
+/// Shuffles cards on the table including the deck. If there are already matched cards, first removes them.
     func shuffleCards() {
+        changeMatchedCards()
+        
+        deck += cardsOnTable
         deck.shuffle()
-        cardsOnTable = Array(deck.prefix(upTo: gameRange))
+        cardsOnTable = deck.getFirst(amountOf: gameRange)
     }
     
 /// Create the deck then shuffle. After that, fill up the table considering game range
