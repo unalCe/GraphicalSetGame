@@ -50,6 +50,7 @@ class SetGame
             // This card is now a member of matchedCardsThatWillBeRemoved
             cardsOnTable[index].isSelected = false
             cardsOnTable[index].isMatched = true
+            gameRange -= 3
         }
     }
     
@@ -115,6 +116,7 @@ class SetGame
         return isSet
     }
     
+    // TODO: Ekranda çok az kart kalınca yapılan shuffle saçmalıyor. incele
 /// Shuffles cards on the table including the deck. If there are already matched cards, first removes them.
     func shuffleCards() {
         changeMatchedCards()

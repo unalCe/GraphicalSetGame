@@ -21,6 +21,10 @@ struct Card: Equatable {
     var number: Number
     
     // MARK: - Functions
+    
+    
+    // TODO: Karta tıkladığında subview numarasına göre değil, identifiere göre seçsin ki sıraları değiştiğinde sıkıntı olmasın.
+    
     /// Returns true if both card instance's identifiers equal. False otherwise.
     static func ==(lhs: Card, rhs: Card) -> Bool {
         return lhs.identifier == rhs.identifier
