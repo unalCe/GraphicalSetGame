@@ -22,7 +22,6 @@ struct Card: Equatable {
     
     // MARK: - Functions
     
-    
     // TODO: Karta tıkladığında subview numarasına göre değil, identifiere göre seçsin ki sıraları değiştiğinde sıkıntı olmasın.
     
     /// Returns true if both card instance's identifiers equal. False otherwise.
