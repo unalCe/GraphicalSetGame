@@ -15,8 +15,11 @@ class SetGame
     private(set) var standarCardCount = 12
     
     var score: Int
-    lazy var succesScore = 60 / gameRange
-    lazy var failScore = Int(0.3 * Double(gameRange))
+    lazy var succesScore = 10 - Int(0.1 * Double(gameRange))
+    lazy var failScore = 3 + Int(0.1 * Double(gameRange))
+    
+    private(set) var deck = [Card]()
+    private(set) var cardsOnTable: [Card]
     
     var gameRange: Int {
         didSet {
@@ -24,9 +27,6 @@ class SetGame
             cardsOnTable += deck.getFirst(amountOf: gameRange - cardsOnTable.count)
         }
     }
-    
-    private(set) var deck = [Card]()
-    private(set) var cardsOnTable: [Card]
     
     var didThreeCardSelected: Bool {
         return selectedCards.count == 3

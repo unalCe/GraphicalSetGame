@@ -11,8 +11,8 @@ import UIKit
 class SetGameDeckView: UIView {
     
     var cards = [Card]()
-    var cellCount: Int { get { return cards.count } }
-    var cellSpace: CGFloat { get { return CGFloat(2 + (32 / cellCount)) } }     // 32 looked good. Check if it's ok for other screen sizes.
+    private var cellCount: Int { get { return cards.count } }
+    private var cellSpace: CGFloat { get { return CGFloat(2 + (32 / cellCount)) } }     // 32 looked good. Check if it's ok for other screen sizes.
     
     private var grid: Grid?
     private func customiseGrid() {
